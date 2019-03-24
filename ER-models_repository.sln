@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ER-models_repository", "ER-models_repository\ER-models_repository.njsproj", "{CB21956D-FC1D-42B2-BF0E-5F4F5F199F08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB21956D-FC1D-42B2-BF0E-5F4F5F199F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB21956D-FC1D-42B2-BF0E-5F4F5F199F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB21956D-FC1D-42B2-BF0E-5F4F5F199F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB21956D-FC1D-42B2-BF0E-5F4F5F199F08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {39AA2628-8177-499D-A134-17A3C3DCA07B}
+	EndGlobalSection
+EndGlobal
