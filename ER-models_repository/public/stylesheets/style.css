@@ -1,0 +1,22 @@
+﻿#canvas {
+    border: 2px solid #000;
+}
+
+/*#canvas2 {
+    border: 2px solid green;
+}*/
+input:required:invalid {
+    border: 1px solid red;
+}
+
+/*input:valid {
+    border-color: green;
+}
+
+input:invalid {
+    border-color: red;
+}*/
+
+input:required:valid {
+    border: 1px solid green;
+}

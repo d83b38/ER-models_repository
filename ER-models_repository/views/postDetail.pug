@@ -1,0 +1,60 @@
+﻿extends layout
+
+block content
+  h1 #{title}: #{post.name}
+  hr
+  p
+    form#formDelete( name="formDelete" method='POST' action=post.url+'/delete')
+        input(type='submit' value='delete post')
+  p
+    button#buttonEdit(type='button'  name='buttonEdit' onclick='showForm()')
+        |изменить
+  p
+    button#buttonCancel(type='button'   name='buttonEdit' onclick='hideForm()' hidden )
+        |отмена
+  svg#canvas(height='500px' width='600px' viewbox='0 0 600 500' border='3px solid #000'  xmlns='http://www.w3.org/2000/svg') 
+  div#editBlock(hidden)
+    input#buttonAdd(value='Нажми меня' type='button' disabled )
+    button(type='button'  name='Save' onclick='saveModel()')
+        | Save
+    form#currForm( name="currForm" )
+        div
+            label(for='title') first entity name:
+            input#entity1Name(type='text',  name='entity1Name')
+        div
+            label(for='title') first entity  coords:
+            input#entity1Coord(onkeyup='checkAndActivate()' type='text',  name='entity1Coord' required pattern="[0-9]+,{1}[0-9]+")
+        div
+            label(for='title') second entity name:
+            input#entity2Name(type='text',  name='entity2Name')
+        div
+            label(for='title') second entity coords:
+            input#entity2Coord(onkeyup='checkAndActivate()' type='text',  name='entity2Coord' required pattern="[0-9]+,{1}[0-9]+")
+        div
+            label(for='summary') relationship name:
+            input#relationshipName(type='text', name='relationshipName')
+
+  script(src='/javascripts/drawViaDB.js')  
+  script(src='/javascripts/addViaForm.js')   
+  script(src='/javascripts/deletePost.js')
+  script(src='/javascripts/formAction.js')
+  script(src='/javascripts/checkAndActivate.js')
+  script(src='/javascripts/saveAsync.js')
+  script.
+    var trans_id=!{JSON.stringify(post._id)};
+    var trans_model=!{JSON.stringify(post.model.relationships)};
+    drawViaDB(trans_model);
+    function showForm() {
+        document.getElementById('editBlock').hidden = false;
+        document.getElementById('buttonEdit').hidden = true;
+        document.getElementById('buttonCancel').hidden = false;
+        editModel(trans_model);
+    }
+    function hideForm() {
+        document.getElementById('editBlock').hidden = true ;
+        document.getElementById('buttonEdit').hidden = false;
+        document.getElementById('buttonCancel').hidden = true;
+    }
+    function saveModel() {       
+        saveEdit(relationships,trans_id);
+    }

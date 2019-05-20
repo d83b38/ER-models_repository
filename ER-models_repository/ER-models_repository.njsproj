@@ -31,19 +31,70 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="controllers\postController.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="models\post.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="models\user.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\addViaForm.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\checkAndActivate.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\deletePost.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\drawViaDB.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\formAction.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\saveAsync.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\simpleDrawRec.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\simplePairDraw.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="routes\catalog.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="routes\index.js" />
     <Compile Include="routes\users.js" />
+    <Compile Include="routes\wiki.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="testBtranches.js">
       <SubType>Code</SubType>
     </Compile>
     <Content Include="package.json" />
+    <Content Include="public\favicon.ico" />
     <Content Include="public\stylesheets\main.css" />
+    <Content Include="public\stylesheets\style.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="README.md" />
+    <Content Include="views\createOrEdit.pug">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\index.pug" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />
+    <Content Include="views\postDetail.pug">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="models\" />
+    <Folder Include="controllers\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />

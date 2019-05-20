@@ -10,12 +10,17 @@
     "name": "Даниил"
   },
   "dependencies": {
+    "async": "^2.6.2",
     "body-parser": "^1.15.0",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
     "express": "^4.14.0",
+    "mongoose": "^5.4.20",
     "morgan": "^1.7.0",
     "pug": "^2.0.0-beta6",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
   }
 }

@@ -2,9 +2,15 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+/* get home page. */
 router.get('/', function (req, res) {
-    res.render('index', { title: 'Express' });
+    res.render('index', { title: 'express' });
+});
+
+router.post('/num', function (req, res) {
+    var num = req.body.value;
+    console.log(num+'received');
+    return res.end('done');
 });
 
 module.exports = router;
