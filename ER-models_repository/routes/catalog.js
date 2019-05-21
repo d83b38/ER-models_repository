@@ -21,6 +21,9 @@ router.post('/post/create', post_controller.postCreate_post);
 // GET request for one post.
 router.get('/post/:id', post_controller.postDetail);
 
+// GET request for one post.
+//router.get('/post/:id/update', post_controller.postDetailUpdate);
+
 // POST request to delete post.
 router.post('/post/:id/delete', post_controller.postDelete_post);
 

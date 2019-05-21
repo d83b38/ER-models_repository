@@ -28,7 +28,22 @@ exports.postDetail = function (req, res, next) {
             res.render('postDetail', { title: 'Title', post: results});
         });   
 };
-
+exports.postDetail = function (req, res, next) {
+    //console.log(req.params.id);
+    Post.findById(req.params.id)
+        .populate('user')
+        .exec(function (err, results) {
+            if (err) { return next(err); }
+            if (results === null) {
+                var err = new Error('Post not found');
+                err.status = 404;
+                return next(err);
+            }
+            console.log(results);
+            res.render('postDetail', { title: 'Title', post: results });
+        });
+};
+//postDetailUpdate
 exports.postEdit_post = function (req, res) {
     console.log('request received');
     var data = [];

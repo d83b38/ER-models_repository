@@ -1,7 +1,7 @@
-﻿function drawViaDB(model) {
+﻿relationships = [];
+function drawViaDB(model) {
     var canvas = document.getElementById('canvas');
     var SVG_URI = 'http://www.w3.org/2000/svg';
-    var relationships = [];
     relationships = model;
     const width = 100;
     const height = 50;

@@ -1,45 +1,73 @@
 ﻿extends layout
 
 block content
-  h1 #{title}: #{post.name}
-  hr
-  p
-    form#formDelete( name="formDelete" method='POST' action=post.url+'/delete')
-        input(type='submit' value='delete post')
-  p
-    button#buttonEdit(type='button'  name='buttonEdit' onclick='showForm()')
-        |изменить
-  p
-    button#buttonCancel(type='button'   name='buttonEdit' onclick='hideForm()' hidden )
-        |отмена
-  svg#canvas(height='500px' width='600px' viewbox='0 0 600 500' border='3px solid #000'  xmlns='http://www.w3.org/2000/svg') 
-  div#editBlock(hidden)
-    input#buttonAdd(value='Нажми меня' type='button' disabled )
-    button(type='button'  name='Save' onclick='saveModel()')
-        | Save
-    form#currForm( name="currForm" )
-        div
-            label(for='title') first entity name:
-            input#entity1Name(type='text',  name='entity1Name')
-        div
-            label(for='title') first entity  coords:
-            input#entity1Coord(onkeyup='checkAndActivate()' type='text',  name='entity1Coord' required pattern="[0-9]+,{1}[0-9]+")
-        div
-            label(for='title') second entity name:
-            input#entity2Name(type='text',  name='entity2Name')
-        div
-            label(for='title') second entity coords:
-            input#entity2Coord(onkeyup='checkAndActivate()' type='text',  name='entity2Coord' required pattern="[0-9]+,{1}[0-9]+")
-        div
-            label(for='summary') relationship name:
-            input#relationshipName(type='text', name='relationshipName')
 
+  h1 #{title}: #{post.name}
+  
+  hr
+  div#toolsBlock
+    div
+        form#formDelete( name="formDelete" method='POST' action=post.url+'/delete')
+            input(type='submit' value='delete post')
+    div
+        button#buttonEdit(type='button'  name='buttonEdit' onclick='showForm()')
+            |изменить
+    div
+        button#buttonCancel(type='button'   name='buttonEdit' onclick='hideForm()' hidden )
+            |отмена
+    div
+        button(type='button'  name='Save' onclick='saveModel()')
+            | Save  
+
+  div(class="uk-child-width-expand@s " uk-grid )
+    div(class="uk-width-3-5 ")
+      svg#canvas(class="uk-margin-left uk-margin-bottom" height='500px' width='100%' viewbox='0 0 800 500' border='3px solid #000'  xmlns='http://www.w3.org/2000/svg'   ) 
+    div#editBlock(hidden class="  uk-width-2-5 " uk-grid)
+      div#left()
+          form#currForm( name="currForm" )
+              <legend class="uk-legend">Добавить связь</legend>
+              div(class="uk-margin-small")
+                  label(class="uk-form-label" for='entity1Name') first entity name:
+                  div(class="uk-form-controls")
+                      input#entity1Name(type='text',  name='entity1Name')
+              div(class="uk-margin-small")
+                  label(class="uk-form-label" for='entity1Coord') first entity  coords:
+                  div(class="uk-form-controls")
+                      input#entity1Coord(onkeyup='checkAndActivate()' type='text',  name='entity1Coord' required pattern="[0-9]+,{1}[0-9]+")
+              div(class="uk-margin-small")
+                  label(class="uk-form-label" for='entity2Name') second entity name:
+                  div(class="uk-form-controls")
+                      input#entity2Name(type='text',  name='entity2Name')
+              div(class="uk-margin-small")
+                  label(class="uk-form-label" for='entity2Coord') second entity coords:
+                  div(class="uk-form-controls")
+                      input#entity2Coord(onkeyup='checkAndActivate()' type='text',  name='entity2Coord' required pattern="[0-9]+,{1}[0-9]+")
+              div(class="uk-margin-small")
+                  label(class="uk-form-label" for='relationshipName') relationship name:
+                  div(class="uk-form-controls")
+                      input#relationshipName(type='text', name='relationshipName')
+          input#buttonAdd(value='Добавить' type='button' disabled )
+      div#right(class="uk-margin-bottom")
+        form#delForm( name="delForm" )
+            <legend class="uk-legend">Удалить связь</legend>
+                div(class="uk-margin-small")
+                    label(class="uk-form-label" ) entity name:
+                    div()
+                        input#entityToDel(type='text',  name='entityToDel')
+            button#clearButton(onclick='deleteEntity()') 
+                |Удалить (все отношение)
+
+ 
+            
   script(src='/javascripts/drawViaDB.js')  
   script(src='/javascripts/addViaForm.js')   
   script(src='/javascripts/deletePost.js')
   script(src='/javascripts/formAction.js')
   script(src='/javascripts/checkAndActivate.js')
   script(src='/javascripts/saveAsync.js')
+  script(src='/javascripts/clearFunc.js')
+  script(src='/javascripts/deleteEntity.js')
+
   script.
     var trans_id=!{JSON.stringify(post._id)};
     var trans_model=!{JSON.stringify(post.model.relationships)};
@@ -57,4 +85,8 @@ block content
     }
     function saveModel() {       
         saveEdit(relationships,trans_id);
+    }
+    function reDraw() {    
+        clearFunc();
+        drawViaDB(relationships);
     }

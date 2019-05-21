@@ -46,6 +46,12 @@
     <Compile Include="public\javascripts\checkAndActivate.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="public\javascripts\clearFunc.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\deleteEntity.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\javascripts\deletePost.js">
       <SubType>Code</SubType>
     </Compile>
@@ -53,6 +59,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="public\javascripts\formAction.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\reDrawAsync.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="public\javascripts\saveAsync.js">
