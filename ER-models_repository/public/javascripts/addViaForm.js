@@ -1,4 +1,5 @@
-﻿function editModel(model) {
+﻿var relationships = [];
+function editModel(model) {
     if (!(typeof model === 'null')) {
         relationships = model;
     }

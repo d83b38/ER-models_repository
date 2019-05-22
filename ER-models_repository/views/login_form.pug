@@ -1,0 +1,21 @@
+﻿extends layout
+
+block content
+    form(action='')
+      fieldset
+        legend БАааааа
+        label
+          input(type='text' name='username' placeholder='Email Address' required='' autofocus='')
+
+          input(type='password' name='password' placeholder='Password' required='')    
+        button(type='submit') Login
+
+    style.
+      form {
+        width: 300px;
+      }  
+      form label {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+      }

@@ -6,6 +6,7 @@
     <Name>ER-models_repository</Name>
     <RootNamespace>ER-models_repository</RootNamespace>
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -21,7 +22,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <NodejsPort>1337</NodejsPort>
-    <StartWebBrowser>true</StartWebBrowser>
+    <StartWebBrowser>True</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="controllers\authController.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="controllers\postController.js">
       <SubType>Code</SubType>
     </Compile>
@@ -77,6 +81,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="routes\index.js" />
+    <Compile Include="routes\userLoad.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="routes\users.js" />
     <Compile Include="routes\wiki.js">
       <SubType>Code</SubType>
@@ -97,9 +104,17 @@
     <Content Include="views\index.pug" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />
+    <Content Include="views\login.pug" />
+    <Content Include="views\login_form.pug">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\postDetail.pug">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\register_form.pug">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\user_info.pug" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="models\" />

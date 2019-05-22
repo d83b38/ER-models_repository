@@ -7,11 +7,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
 //подключение  ODM к базе данных
 var mongoose = require('mongoose');
 var mongoDBURL = 'mongodb://localhost/ER-models_repository';
 mongoose.connect(mongoDBURL)
-    .then(() => console.log('MongoDB connected'))
+    .then(() => console.log('MongoDB connected', hash))
     .catch(err => console.error(err));  
 mongoose.Promise = global.Promise;
 var db_mon = mongoose.connection;
@@ -46,6 +47,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var catalog  = require('./routes/catalog');
 var wiki = require('./routes/wiki.js');
+var userLoad = require('./routes/userLoad.js');
 
 var app = express();
 
@@ -60,6 +62,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', userLoad.router);
 app.use('/', routes);
 app.use('/users', users);
 app.use('/catalog', catalog);

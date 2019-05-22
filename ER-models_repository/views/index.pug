@@ -7,6 +7,7 @@ block content
     input#num(type='text')
     button(type='button' value='Send' name='Send' onclick='send()')
       | Send  
+
     script.
       function send () {
         var number = {value: document.getElementById('num').value};
@@ -16,4 +17,4 @@ block content
         xhr.send(JSON.stringify(number));
         console.log('request sended');
       }
-     
+   

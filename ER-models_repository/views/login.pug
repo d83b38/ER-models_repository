@@ -1,0 +1,9 @@
+﻿extends layout
+block append content
+    form(action="/users/login", method="POST", enctype="multipart/form-data")
+        p Enter your login:
+            input(name="login", type='text')
+        p and password:
+            input(name='password', type='password')
+        p #{info}
+        input(type='submit', value='logon >>')

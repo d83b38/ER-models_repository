@@ -1,0 +1,7 @@
+﻿extends layout
+block append content
+    p Welcome, #{user.login}!
+    p Your posts are:
+        ul
+            each post in user.posts
+                li #{post}
