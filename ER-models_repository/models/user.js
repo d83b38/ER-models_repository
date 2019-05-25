@@ -1,6 +1,5 @@
 ﻿var mongoose = require('mongoose');
 var crypto = require('crypto');
-
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema(
@@ -14,16 +13,11 @@ var userSchema = new Schema(
             type: String,
             required: true
         },
-
         firstName: { type: String},
         lastName: { type: String },
-
         posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
     }
 );
-
-
-
 
 userSchema.methods.encryptPassword = function (password) {
     return crypto.createHash('md5').update(password).digest('hex');
@@ -36,12 +30,8 @@ userSchema.virtual('password')
     })
     .get(function () { return this._plainPassword; });
 
-
 userSchema.methods.checkPassword = function (password) {
     return this.encryptPassword(password) === this.hashedPassword;
 };
-
-
-
 
 module.exports = mongoose.model('User', userSchema);

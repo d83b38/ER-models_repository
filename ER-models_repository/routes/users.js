@@ -1,23 +1,102 @@
 ﻿'use strict';
 var express = require('express');
 var router = express.Router();
-var auth_controller = require('../controllers/authController');
+var async = require('async');
+var multiparty = require('multiparty');
+var userLoad = require('../routes/userLoad');
+//var auth_controller = require('../controllers/authController');
 
-/* GET users listing. */
 router.get('/', function (req, res) {
     res.send('respond with a resource');
 });
 
+router.get('/login', function (req, res) {
+    //var username = req.body.username;
+    //var password = req.body.password;
 
-router.get('/login', auth_controller.userLogin_get);
-router.post('/login', auth_controller.userLogin_post);
-router.post('/logout', auth_controller.userLogout_post);
-router.get('/register', auth_controller.userRegister_get);
+    res.render('login', { title: 'login', info:'' });
+});
 
+router.post('/login', async function (req, res) {
+    //req.user = res.locals.user = null;
+    var form = new multiparty.Form();
+    form.parse(req, async function (err, fields, files) {
+        if (fields) {
+            var login = fields.login[0];
+            var password = fields.password[0];
+            if (login && password) {
+                var currentUser = await userLoad.checkLogin(login, password);
+                if (currentUser.isAuth) {
+                    console.log('udachno');
+                    var secret = req.app.get('secret');
+                    var token = userLoad.getToken(currentUser.user, secret);
+                    res.cookie('authToken', token);
+                    res.redirect('/users/user_info');
+                }
+                else {
+                    console.log('neudachno');
+                    res.render('login', { title: 'login', info: 'invalid login or password' });
+                }
+            }
+            else {
+                res.render('login', { title: 'login', info: 'erorr' });
+            }
+        }
+    });
+});
 
-router.post('/register', auth_controller.userRegister_post);
+router.get('/register', function (req, res) {
+    //var username = req.body.username;
+    //var password = req.body.password;
+    res.render('register_form', { title: 'registration' });
+});
 
+router.post('/register', function (req, res) {
+    var form = new multiparty.Form();
+    form.parse(req, function (err, fields, files) {
+        if (fields) {
+            // TODO: проверить есть ли такой пользователь уже
+            var login = fields.login[0];
+            var firstName = '';
+            if (!(typeof fields.firstName[0] === 'undefined')) {
+                firstName = fields.firstName[0];
+            }
+            var lastName = '';
+            if (!(typeof fields.firstName[0] === 'undefined')) {
+                lastName = fields.lastName[0];
+            }
+            var password = fields.password[0];
+            var user = new User(
+                {
+                    login: login,
+                    firstName: firstName,
+                    lastName: lastName,
+                    password: password
+                }
+            );
+            user.save(function (err) {
+                if (err) console.log(err);
+            });
+        }
+    });
+    res.send('done');
+});
 
-router.get('/user_info', auth_controller.userInfo_get);
+/*  Set res.locals.needToHide = true 
+ *  if you want to hide page from users without token(nonauthorized users)*/
+router.get('/user_info', function (req, res, next) {
+    res.locals.needToHide = true; next();},
+    userLoad.verifyToken,
+    function (req, res) {
+    var data = req.data;
+    data.title = 'User profile';
+    res.render('user_info', data);
+});
+
+router.post('/logout', function (req, res) {
+    //var username = req.body.username;
+    //var password = req.body.password;
+    res.send('NOT IMPLEMENTED');
+});
 
 module.exports = router;

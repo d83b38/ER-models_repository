@@ -1,7 +1,11 @@
 ﻿extends layout
 block append content
-    p Welcome, #{user.login}!
-    p Your posts are:
-        ul
-            each post in user.posts
-                li #{post}
+    if user
+        p Welcome, #{user.login}!
+            p Your posts are:
+                if user.postsID.length !==0
+                    ul
+                        each post in user.posts
+                            li #{post}
+    else 
+        p Welcome, stranger!
