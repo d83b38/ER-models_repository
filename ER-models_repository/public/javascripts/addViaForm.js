@@ -1,26 +1,31 @@
-﻿var relationships = [];
-function editModel(model) {
-    if (!(typeof model === 'null')) {
-        relationships = model;
-    }
-}
+﻿var relationships = window.relationships;
 
 var buttonAdd = document.getElementById('buttonAdd');
 var canvas = document.getElementById('canvas');
 var SVG_URI = 'http://www.w3.org/2000/svg';
-//var relationships = [];
+
+
+import { getPoint, createRectangle} from './drawModule.js';
+
 const width = 100;
 const height = 50;
+const recColor = 'red';
+
 function myXOR(a, b) {
     return (a || b) && !(a && b);
 }
 
 function getCoord(rowString) {
     var arrayCoord = [];
-    return (arrayCoord = rowString.split(','))
+    //var transformedArray = transformPointStatic(arrayCoord[0], arrayCoord[1], 'canvas');
+    return arrayCoord = rowString.split(',');
 }
 
 buttonAdd.addEventListener('click', (evt) => {
+    var tempRec1 = document.getElementById('temp1');
+    var tempRec2 = document.getElementById('temp2');
+    tempRec1.parentNode.removeChild(tempRec1);
+    tempRec2.parentNode.removeChild(tempRec2);
     var form = document.forms.currForm; 
     var e_name1 = form.elements.entity1Name.value;
     var e_name2 = form.elements.entity2Name.value;
@@ -30,10 +35,10 @@ buttonAdd.addEventListener('click', (evt) => {
 
     function checkEntity(relationship, currName) {
         if (relationship.entity_1.name === currName) {
-            return relationship.entity_1
+            return relationship.entity_1;
         }
         if (relationship.entity_2.name === currName) {
-            return relationship.entity_2
+            return relationship.entity_2;
         }
     }
     //найден объект на первом месте с именем первой сущности из текущей формы
@@ -49,33 +54,33 @@ buttonAdd.addEventListener('click', (evt) => {
         }
         if (relationship.entity_2.name === e_name1) {
             second1 = true;
-            return relationship
+            return relationship;
         }
     });
-
+    var foundedEntityFromForm1;
     if (first1) {
-        var foundedEntityFromForm1 = foundedRelationship1.entity_1;
+        foundedEntityFromForm1 = foundedRelationship1.entity_1;
     }
     if (second1) {
-        var foundedEntityFromForm1 = foundedRelationship1.entity_2;
+        foundedEntityFromForm1 = foundedRelationship1.entity_2;
     }
    
     var foundedRelationship2 = relationships.find(function checkEntity(relationship) {
         if (relationship.entity_1.name === e_name2) {
-            first2 = true;;
-            return relationship
+            first2 = true;
+            return relationship;
         }
         if (relationship.entity_2.name === e_name2) {
-            second2 = true;;
-            return relationship
+            second2 = true;
+            return relationship;
         }
     });
-
+    var foundedEntityFromForm2;
     if (first2) {
-        var foundedEntityFromForm2 = foundedRelationship2.entity_1;
+        foundedEntityFromForm2 = foundedRelationship2.entity_1;
     }
     if (second2) {
-        var foundedEntityFromForm2 = foundedRelationship2.entity_2;
+        foundedEntityFromForm2 = foundedRelationship2.entity_2;
     }
 
     if (!(typeof foundedEntityFromForm1 === 'undefined')) {
@@ -87,6 +92,7 @@ buttonAdd.addEventListener('click', (evt) => {
             alert('случай 1.1');
             var rec2 = foundedEntityFromForm2;
             const drawPath = document.createElementNS(SVG_URI, 'path');
+            //TODO сделать функцию соединения прямоугольников
             drawPath.setAttribute('stroke', '#ff0000');
             drawPath.setAttribute('fill', 'none');
             drawPath.setAttribute('d', `M${parseFloat(rec2.coordinates[0]) + (width / 2)} 
@@ -106,21 +112,17 @@ buttonAdd.addEventListener('click', (evt) => {
                     attributes: [],
                     coordinates: rec2.coordinates
                 }
-            }
-            relationships.push(relationship);
-            return 
+            };
+            window.relationships.push(relationship);
+            return;
         }
         if (typeof foundedEntityFromForm2 === 'undefined') {
             alert(` ${e_name2} еще не встречалась надо построить `);
             alert('случай 1.2');
             //построение  2 
-            const rec2 = document.createElementNS(SVG_URI, 'rect');
-            rec2.setAttribute('x', coord2[0]);
-            rec2.setAttribute('y', coord2[1]);
-            rec2.setAttribute('height', 50);
-            rec2.setAttribute('width', 100);
-            rec2.setAttribute('fill', 'red');
-            ////отрисовка пути от существующей первой к новой
+            const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
+
+            //отрисовка пути от существующей первой к новой
             const drawPath = document.createElementNS(SVG_URI, 'path');
             drawPath.setAttribute('stroke', '#ff0000');
             drawPath.setAttribute('fill', 'none');
@@ -142,7 +144,7 @@ buttonAdd.addEventListener('click', (evt) => {
             group2.appendChild(textelement2);
             canvas.appendChild(group2);
             //сохраняем связь
-            var relationship = {
+            const relationship = {
                 entity_1: {
                     name: rec1.name,
                     attributes: [],
@@ -153,26 +155,21 @@ buttonAdd.addEventListener('click', (evt) => {
                     attributes: [],
                     coordinates: coord2
                 }
-            }
-            relationships.push(relationship);
-            return 
+            };
+            window.relationships.push(relationship);
+            return;
         }
     }
     else {
         alert(` ${e_name1} еще не встречалась, надо построить `);
         //построение 1
-        const rec1 = document.createElementNS(SVG_URI, 'rect');
-        rec1.setAttribute('x', coord1[0]);
-        rec1.setAttribute('y', coord1[1]);
-        rec1.setAttribute('height', 50);
-        rec1.setAttribute('width', 100);
-        rec1.setAttribute('fill', 'red');
+        const rec1 = createRectangle(coord1[0], coord1[1], height, width, recColor);
         if (!(typeof foundedEntityFromForm2 === 'undefined')) {
             alert(`уже есть ${foundedEntityFromForm2.name} надо соединить их `);
             alert('случай 2.1');
             //построение соединения
             //добавление общее 
-            var rec2 = foundedEntityFromForm2;
+            const rec2 = foundedEntityFromForm2;
             const drawPath = document.createElementNS(SVG_URI, 'path');
             drawPath.setAttribute('stroke', '#ff0000');
             drawPath.setAttribute('fill', 'none');
@@ -194,7 +191,7 @@ buttonAdd.addEventListener('click', (evt) => {
             group1.appendChild(textelement1);
             canvas.appendChild(group1);
             //сохраняем связь
-            var relationship = {
+            const relationship = {
                 entity_1: {
                     name: e_name1,
                     attributes: [],
@@ -205,21 +202,15 @@ buttonAdd.addEventListener('click', (evt) => {
                     attributes: [],
                     coordinates: rec2.coordinates
                 }
-            }
-            relationships.push(relationship);
-            return 
+            };
+            window.relationships.push(relationship);
+            return;
         }
         if (typeof foundedEntityFromForm2 === 'undefined') {
             alert(` ${e_name2} еще не встречалась надо построить `);
             alert('случай 2.2');
             //построение 2
-            const rec2 = document.createElementNS(SVG_URI, 'rect');
-            rec2.setAttribute('x', coord2[0]);
-            rec2.setAttribute('y', coord2[1]);
-            rec2.setAttribute('height', 50);
-            rec2.setAttribute('width', 100);
-            rec2.setAttribute('fill', 'red');
-
+            const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
             const drawPath = document.createElementNS(SVG_URI, 'path');
             drawPath.setAttribute('stroke', '#ff0000');
             drawPath.setAttribute('fill', 'none');
@@ -252,7 +243,7 @@ buttonAdd.addEventListener('click', (evt) => {
             group2.appendChild(rec2);
             group2.appendChild(textelement2);
             canvas.appendChild(group2);
-            var relationship = {
+            const relationship = {
                 entity_1: {
                     name: e_name1,
                     attributes: [],
@@ -263,9 +254,9 @@ buttonAdd.addEventListener('click', (evt) => {
                     attributes: [],
                     coordinates: coord2
                 }
-            }
-            relationships.push(relationship);
-            return 
+            };
+            window.relationships.push(relationship);
+            return;
         }
     }
 }

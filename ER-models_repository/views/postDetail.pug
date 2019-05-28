@@ -1,27 +1,52 @@
 ﻿extends layout
 
 block content
+  script.
+    var post= !{JSON.stringify(post)};
+    console.log(post);
+    var postID=post._id;
+    var model=post.model.relationships;
+    var authorUserID;
+    console.log(post.name);
+    if(!(typeof post.user === 'undefined')){
+        authorUserID=post.user._id;
+    }        
+    else
+    {
+        authorUserID = null;
+    }
+    currUserLocal= !{JSON.stringify(currUser)};
 
-  h1 #{title}: #{post.name}
-  
-  hr
-  div#toolsBlock
-    div
-        form#formDelete( name="formDelete" method='POST' action=post.url+'/delete')
-            input(type='submit' value='delete post')
-    div
-        button#buttonEdit(type='button'  name='buttonEdit' onclick='showForm()')
-            |изменить
-    div
-        button#buttonCancel(type='button'   name='buttonEdit' onclick='hideForm()' hidden )
-            |отмена
-    div
-        button(type='button'  name='Save' onclick='saveModel()')
-            | Save  
+  if post.name
+    h1 Пост : #{post.name}
+  if post.user
+    h2 Автор: #{post.user.login}
+  else 
+    h2 Автор: none
+  if currUser
+    //h3 you: #{currUser.login}
+  deletePostAjax(postID,authorID)
+  hr(class=" uk-padding-remove " )
+  if post.user && currUser
+      if post.user._id==currUser.id
+          div#toolsBlock
+            div
 
+                button#buttonEdit(type='button' style="width: 150px"  name='buttonDelete' onclick='deletePostAjax(postID,authorUserID)')
+                    |Удалить пост
+            div
+                button#buttonEdit(type='button' style="width: 150px" name='buttonEdit' onclick='showForm()')
+                    |Изменить модель
+            div
+                button#buttonCancel(type='button' style="width: 150px"  name='buttonEdit' onclick='hideForm()' hidden )
+                    |Отмена
+            div
+                button(type='button'  name='Save' style="width: 150px"  onclick='saveModel()')
+                    |Сохранить модель
+  hr(class="uk-margin-remove-top uk-margin-remove-bottom " )
   div(class="uk-child-width-expand@s " uk-grid )
     div(class="uk-width-3-5 ")
-      svg#canvas(class="uk-margin-left uk-margin-bottom" height='500px' width='100%' viewbox='0 0 800 500' border='3px solid #000'  xmlns='http://www.w3.org/2000/svg'   ) 
+      svg#canvas( height='500px' width='800px' viewbox='0 0 800 500' border='3px solid #000'  xmlns='http://www.w3.org/2000/svg') 
     div#editBlock(hidden class="  uk-width-2-5 " uk-grid)
       div#left()
           form#currForm( name="currForm" )
@@ -47,7 +72,7 @@ block content
                   div(class="uk-form-controls")
                       input#relationshipName(type='text', name='relationshipName')
           input#buttonAdd(value='Добавить' type='button' disabled )
-      div#right(class="uk-margin-bottom")
+      div#right()
         form#delForm( name="delForm" )
             <legend class="uk-legend">Удалить связь</legend>
                 div(class="uk-margin-small")
@@ -57,10 +82,27 @@ block content
         button#clearButton(onclick='deleteEntity()') 
                 |Удалить (все отношение)
 
+  div( uk-grid class="uk-margin-large-bottom") 
+    h3 Комментарии:
+    div(class="uk-width-5-5 uk-grid-small uk-margin-remove-left  uk-grid-match" )
+
+      hr(class=" uk-margin-remove-top uk-margin-remove-bottom" )
+      div#commentBlock(class=" uk-grid-small" max-width='350px' style=" max-height: 500px; overflow-y: scroll")
+      hr
+      div(class="uk-padding-remove-left")
+          span Отправить комментарий
+          br
+          textarea#commentInput(cols="30" rows="10")
+          br
+      button#buttonComment(type='button'  style="float: right; width: 100px" onclick='sendComment(postID,currUserLocal);') Отправить     
  
-            
-  script(src='/javascripts/drawViaDB.js')  
-  script(src='/javascripts/addViaForm.js')   
+  script(type="module").
+    import { drawViaDB } from '/javascripts/drawViaDB.js'
+    drawViaDB(model);
+    loadComments(post.comments);
+
+  script(type="module" src='/javascripts/addViaForm.js')   
+  script(type="module" src='/javascripts/simplePairDraw.js') 
   script(src='/javascripts/deletePost.js')
   script(src='/javascripts/formAction.js')
   script(src='/javascripts/checkAndActivate.js')
@@ -68,15 +110,13 @@ block content
   script(src='/javascripts/clearFunc.js')
   script(src='/javascripts/deleteEntity.js')
 
+
   script.
-    var trans_id=!{JSON.stringify(post._id)};
-    var trans_model=!{JSON.stringify(post.model.relationships)};
-    drawViaDB(trans_model);
     function showForm() {
         document.getElementById('editBlock').hidden = false;
         document.getElementById('buttonEdit').hidden = true;
         document.getElementById('buttonCancel').hidden = false;
-        editModel(trans_model);
+        window.relationships=model;
     }
     function hideForm() {
         document.getElementById('editBlock').hidden = true ;
@@ -84,9 +124,14 @@ block content
         document.getElementById('buttonCancel').hidden = true;
     }
     function saveModel() {       
-        saveEdit(relationships,trans_id);
+        saveEdit(relationships,postID);
     }
     function reDraw() {    
         clearFunc();
         drawViaDB(relationships);
+    }
+    function loadComments(comments) {
+        for (comment of comments) {
+            addCommentToDoc(comment.user.login, comment.content);
+        }
     }

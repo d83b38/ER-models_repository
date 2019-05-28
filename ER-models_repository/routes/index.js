@@ -1,7 +1,6 @@
 ﻿'use strict';
 var express = require('express');
 var router = express.Router();
-//var auth_controller = require('../controllers/authController');
 
 /* get home page. */
 router.get('/', function (req, res) {

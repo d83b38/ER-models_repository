@@ -1,5 +1,4 @@
-﻿//const svg1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-var SVG_URI = 'http://www.w3.org/2000/svg';
+﻿var SVG_URI = 'http://www.w3.org/2000/svg';
 var canvas = document.getElementById('canvas');
 
 function getPoint(evt) {

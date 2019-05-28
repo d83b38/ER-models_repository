@@ -1,30 +1,37 @@
 ﻿extends layout
 block content
-    h1= title
-    p Welcome to #{title}
+
+    script.
+        window.relationships = [];
+        var userID=!{JSON.stringify(user.id)};
+        //var userToken= !{JSON.stringify(token)};
+    p Welcome, #{user.login}!
+    form( name="postNameForm")
+        div
+            input(type='text',  name='postName' placeholder'Post name:')
     svg#canvas(height='500px' width='800px' viewbox='0 0 800 500' xmlns='http://www.w3.org/2000/svg') 
     input#buttonAdd(value='Нажми меня' type='button' disabled )
-    button(type='button'  name='Send' onclick='saveCreate(relationships)')
+    button(type='button'  name='Send' onclick='saveCreate(relationships,userID)')
       | Save
 
     form( name="currForm")
         div.form-group
-            label(for='title') first entity name:
+            label(for='entity1Name') first entity name:
             input#entity1Name.form-control(type='text',  name='entity1Name')
         div.form-group
-            label(for='title') first entity  coords:
+            label(for='entity1Coord') first entity  coords:
             input#entity1Coord.form-control(onkeyup='checkAndActivate()' type='text',  name='entity1Coord' required pattern="[0-9]+,{1}[0-9]+")
         div.form-group
-            label(for='title') second entity name:
+            label(for='entity2Name') second entity name:
             input#entity2Name.form-control(type='text',  name='entity2Name')
         div.form-group
-            label(for='title') second entity coords:
+            label(for='entity2Coord') second entity coords:
             input#entity2Coord.form-control(onkeyup='checkAndActivate()' type='text',  name='entity2Coord' required pattern="[0-9]+,{1}[0-9]+")
         div.form-group
-            label(for='summary') relationship name:
+            label(for='relationshipName') relationship name:
             input#relationshipName.form-control(type='text', name='relationshipName')
-        
-    script(src='/javascripts/addViaForm.js')    
-    script(src='/javascripts/simplePairDraw.js')
+    
+    script( type="module" src='/javascripts/addViaForm.js') 
+    script( type="module" src='/javascripts/simplePairDraw.js') 
     script(src='/javascripts/checkAndActivate.js')
     script(src='/javascripts/saveAsync.js')

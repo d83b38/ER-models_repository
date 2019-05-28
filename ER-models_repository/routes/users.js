@@ -4,21 +4,18 @@ var router = express.Router();
 var async = require('async');
 var multiparty = require('multiparty');
 var userLoad = require('../routes/userLoad');
-//var auth_controller = require('../controllers/authController');
+var User = require('../models/user');
 
 router.get('/', function (req, res) {
     res.send('respond with a resource');
 });
 
 router.get('/login', function (req, res) {
-    //var username = req.body.username;
-    //var password = req.body.password;
 
     res.render('login', { title: 'login', info:'' });
 });
 
 router.post('/login', async function (req, res) {
-    //req.user = res.locals.user = null;
     var form = new multiparty.Form();
     form.parse(req, async function (err, fields, files) {
         if (fields) {
@@ -46,14 +43,12 @@ router.post('/login', async function (req, res) {
 });
 
 router.get('/register', function (req, res) {
-    //var username = req.body.username;
-    //var password = req.body.password;
     res.render('register_form', { title: 'registration' });
 });
 
-router.post('/register', function (req, res) {
+router.post('/register',async function (req, res) {
     var form = new multiparty.Form();
-    form.parse(req, function (err, fields, files) {
+    await form.parse(req, async function (err, fields, files) {
         if (fields) {
             // TODO: проверить есть ли такой пользователь уже
             var login = fields.login[0];
@@ -74,7 +69,7 @@ router.post('/register', function (req, res) {
                     password: password
                 }
             );
-            user.save(function (err) {
+            await user.save(function (err) {
                 if (err) console.log(err);
             });
         }
@@ -94,8 +89,6 @@ router.get('/user_info', function (req, res, next) {
 });
 
 router.post('/logout', function (req, res) {
-    //var username = req.body.username;
-    //var password = req.body.password;
     res.send('NOT IMPLEMENTED');
 });
 

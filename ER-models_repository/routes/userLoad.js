@@ -16,9 +16,9 @@ async function checkLogin(login, password) {
                 user: {
                     login: foundUser[0].login,
                     id: foundUser[0]._id,
-                    postsID: foundUser[0].posts,
                     firstName: foundUser[0].firstName,
                     lastName: foundUser[0].lastName
+                    // postsID: foundUser[0].posts,
                 }
             };
         }
@@ -37,7 +37,7 @@ async function checkLogin(login, password) {
 }   
 
 function getToken(user, secret) {
-    var token = jwt.sign(user, secret, { expiresIn: 120});
+    var token = jwt.sign(user, secret, { expiresIn: 10000});
 
     return token;
 }
@@ -79,6 +79,7 @@ router.all('*', function (req, res, next) {
     console.log('loading ...' );
     var token = req.cookies['authToken'];
     if (token) {
+        data.token = token;
         data.user = getUser(token, req.app.get('secret'));
     }
     req.data = data;

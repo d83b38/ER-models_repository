@@ -1,11 +1,6 @@
 ﻿extends layout
 block append content
-    if user
-        p Welcome, #{user.login}!
-            p Your posts are:
-                if user.postsID.length !==0
-                    ul
-                        each post in user.posts
-                            li #{post}
-    else 
-        p Welcome, stranger!
+    script.
+        var userc=!{JSON.stringify(user)};
+        console.log(userc);
+    p Welcome, stranger!

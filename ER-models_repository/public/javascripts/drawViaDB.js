@@ -1,12 +1,15 @@
-﻿relationships = [];
-function drawViaDB(model) {
+﻿window.relationships = [];
+import { getPoint, createRectangle} from './drawModule.js';
+
+export function drawViaDB(model) {
     var canvas = document.getElementById('canvas');
     var SVG_URI = 'http://www.w3.org/2000/svg';
     relationships = model;
     const width = 100;
     const height = 50;
+    const recColor = 'red';
 
-    for (i = 0; i < relationships.length; ++i) {
+    for (var i = 0; i < relationships.length; ++i) {
         //console.log(relationships[i].entity_1);
         var e_name1 = relationships[i].entity_1.name;
         var e_name2 = relationships[i].entity_2.name;
@@ -39,11 +42,11 @@ function drawViaDB(model) {
         var foundedRelationship2 = relationships.find(function checkEntity(checkedRelationship) {
             if (checkedRelationship.entity_1.name === e_name2) {
                 first2 = true;
-                return checkedRelationship
+                return checkedRelationship;
             }
             if (checkedRelationship.entity_2.name === e_name2) {
                 second2 = true;
-                return checkedRelationship
+                return checkedRelationship;
             }
         });
 
@@ -71,18 +74,13 @@ function drawViaDB(model) {
                                      ${parseFloat(rec1.coordinates[1]) + (height / 2)} `);
                 canvas.appendChild(drawPath);
 
-                continue
+                continue;
             }
             if (typeof foundedEntityFromForm2 === 'undefined') {
                 //alert(` ${e_name2} еще не встречалась надо построить `);
                 //alert('случай 1.2');
                 //построение  2 
-                const rec2 = document.createElementNS(SVG_URI, 'rect');
-                rec2.setAttribute('x', coord2[0]);
-                rec2.setAttribute('y', coord2[1]);
-                rec2.setAttribute('height', 50);
-                rec2.setAttribute('width', 100);
-                rec2.setAttribute('fill', 'red');
+                const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
                 ////отрисовка пути от существующей первой к новой
                 const drawPath = document.createElementNS(SVG_URI, 'path');
                 drawPath.setAttribute('stroke', '#ff0000');
@@ -105,24 +103,19 @@ function drawViaDB(model) {
                 group2.appendChild(textelement2);
                 canvas.appendChild(group2);
 
-                continue
+                continue;
             }
         }
         else {
             //alert(` ${e_name1} еще не встречалась, надо построить `);
             //построение 1
-            const rec1 = document.createElementNS(SVG_URI, 'rect');
-            rec1.setAttribute('x', coord1[0]);
-            rec1.setAttribute('y', coord1[1]);
-            rec1.setAttribute('height', 50);
-            rec1.setAttribute('width', 100);
-            rec1.setAttribute('fill', 'red');
+            const rec1 = createRectangle(coord1[0], coord1[1], height, width, recColor);
             if (!(typeof foundedEntityFromForm2 === 'undefined')) {
                 //alert(`уже есть ${foundedEntityFromForm2.name} надо соединить их `);
                 //alert('случай 2.1');
                 //построение соединения
                 //добавление общее 
-                var rec2 = foundedEntityFromForm2;
+                const rec2 = foundedEntityFromForm2;
                 const drawPath = document.createElementNS(SVG_URI, 'path');
                 drawPath.setAttribute('stroke', '#ff0000');
                 drawPath.setAttribute('fill', 'none');
@@ -145,19 +138,13 @@ function drawViaDB(model) {
                 canvas.appendChild(group1);
                 //сохраняем связь
                 
-                continue
+                continue;
             }
             if (typeof foundedEntityFromForm2 === 'undefined') {
                 //alert(` ${e_name2} еще не встречалась надо построить `);
                 //alert('случай 2.2');
                 //построение 2
-                const rec2 = document.createElementNS(SVG_URI, 'rect');
-                rec2.setAttribute('x', coord2[0]);
-                rec2.setAttribute('y', coord2[1]);
-                rec2.setAttribute('height', 50);
-                rec2.setAttribute('width', 100);
-                rec2.setAttribute('fill', 'red');
-
+                const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
                 const drawPath = document.createElementNS(SVG_URI, 'path');
                 drawPath.setAttribute('stroke', '#ff0000');
                 drawPath.setAttribute('fill', 'none');
@@ -191,7 +178,7 @@ function drawViaDB(model) {
                 group2.appendChild(textelement2);
                 canvas.appendChild(group2);
 
-                continue
+                continue;
             }
         }
     }

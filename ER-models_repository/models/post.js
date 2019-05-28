@@ -4,18 +4,20 @@ var Schema = mongoose.Schema;
 var postSchema = new Schema(
     {
         name: { type: String, default: 'testPost'},
-        user: { type: Schema.ObjectId, ref: 'User'},
+        user: { type: Schema.Types.ObjectId, ref: 'User'},
 
         comments: [{
             content: String,
-            createdAt: Date,
-            updatedAt: Date,
-            user: { type: Schema.ObjectId, ref: 'User'}
+            //createdAt: Date,
+            //updatedAt: Date,
+            user: { type: Schema.Types.ObjectId, ref: 'User'}
         }],
+
+        //description: String,
 
         model: {
             relationships: [{
-                name: String,
+                //name: String,
                 entity_1: {
                     name: String,
                     attributes: [String],

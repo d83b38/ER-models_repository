@@ -53,6 +53,9 @@
     <Compile Include="public\javascripts\deletePost.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="public\javascripts\drawModule.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\javascripts\drawViaDB.js">
       <SubType>Code</SubType>
     </Compile>
@@ -105,6 +108,7 @@
     <Content Include="views\postDetail.pug">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\postList.pug" />
     <Content Include="views\register_form.pug">
       <SubType>Code</SubType>
     </Content>
