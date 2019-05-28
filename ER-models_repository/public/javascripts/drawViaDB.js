@@ -1,5 +1,6 @@
 ﻿window.relationships = [];
 import { getPoint, createRectangle} from './drawModule.js';
+//window.drawLocal = function () { }
 
 export function drawViaDB(model) {
     var canvas = document.getElementById('canvas');

@@ -1,9 +1,15 @@
 ﻿extends layout
 block append content
-    form(action="/users/login", method="POST", enctype="multipart/form-data")
-        p Enter your login:
-            input(name="login", type='text')
-        p and password:
-            input(name='password', type='password')
-        p #{info}
-        input(type='submit', value='logon >>')
+    fieldset( style="  width: 250px ")
+        form(action="/users/login", method="POST", enctype="multipart/form-data")
+            legend(class="uk-legend") Вход
+                div(class="uk-margin-small")
+                    label(class="uk-form-label")
+                    div(class="uk-form-controls")
+                        input(placeholder='Имя пользователя' name="login", type='text')
+                div(class="uk-margin-small")
+                    label(class="uk-form-label")
+                    div(class="uk-form-controls")
+                        input(placeholder='Пароль' name='password', type='password')
+            p #{info}
+            input(type='submit', value='Войти >>')

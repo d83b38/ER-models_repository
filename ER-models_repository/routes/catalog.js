@@ -10,23 +10,30 @@ router.get('/', function (req, res) {
 });
 
 router.get('/posts', function (req, res) {
+    var data = req.data;
     Post.find({}, 'name user model')
         .populate('user')
         .populate('model')
         .exec(function (err, list_posts) {
             if (err) { return next(err); }
-            res.render('postList', { title: 'All Posts List', post_list: list_posts });
+            res.render('postList', { title: 'All Posts List', currUser: data.user ,post_list: list_posts });
         });
 });
 
-router.get('/post/create', userLoad.verifyToken, function (req, res) {
-    var data = req.data;
-    data.title = 'User profile';
-    res.render('createOrEdit', { title: 'Create post', user: data.user, token: data.token});
-});
+router.get('/post/create',
+    function (req, res, next) {
+        res.locals.needToHide = true; next();
+    },
+    userLoad.verifyToken,
+    function (req, res) {
+        var data = req.data;
+        data.title = 'User profile';
+        res.render('create', { title: 'Create post', currUser: data.user, token: data.token });
+    }
+);
 
 router.post('/post/create/:token', async function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     var data = req.body;
     newPostID = new mongoose.Types.ObjectId();
     try {
@@ -68,7 +75,7 @@ router.get('/post/:id', function (req, res, next) {
                 err.status = 404;
                 return next(err);
             }
-            console.log(results);
+            //console.log(results);
             res.render('postDetail', { title: 'Post', currUser: data.user, post: results });
         });
 });
@@ -109,10 +116,7 @@ router.post('/post/:id/edit', function (req, res) {
 
 router.post('/post/:id/addComment/:token', function (req, res) {
     console.log('request received');
-
     var data = req.body;
-
-
     var comment = {
         content: data.commentText, user: data.userID
     };
@@ -122,6 +126,5 @@ router.post('/post/:id/addComment/:token', function (req, res) {
         console.log('success');
     });
 });
-
 
 module.exports = router;

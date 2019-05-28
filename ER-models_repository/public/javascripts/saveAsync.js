@@ -31,26 +31,30 @@ function saveCreate(transRelationships, id) {
 }
 
 function sendComment(postID, currUserLocal) {
-    var token = getCookie("authToken");
-    var url = `/catalog/post/${postID}/addComment/${token}`;
-    var button = document.getElementById('buttonComment');
-    var xhr = new window.XMLHttpRequest();
-    var data = {
-        userID: '',
-        commentText: ''};
+    if (currUserLocal) {
+        var token = getCookie("authToken");
+        var url = `/catalog/post/${postID}/addComment/${token}`;
+        var button = document.getElementById('buttonComment');
+        var xhr = new window.XMLHttpRequest();
+        var data = {
+            userID: '',
+            commentText: ''
+        };
 
-    data.userID = currUserLocal.id;
-    data.commentText = document.getElementById('commentInput').value;
+        data.userID = currUserLocal.id;
+        data.commentText = document.getElementById('commentInput').value;
 
-    dataString = JSON.stringify(data);
+        dataString = JSON.stringify(data);
 
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.send(dataString);
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(dataString);
 
-
-
-    addCommentToDoc(currUserLocal.login,data.commentText);
+        addCommentToDoc(currUserLocal.login, data.commentText);
+    }
+    else {
+        alert('Необходимо авторизоваться!');
+    }
 
 }
 function addCommentToDoc(userLogin, commentText) {

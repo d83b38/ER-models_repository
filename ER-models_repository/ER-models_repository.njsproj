@@ -62,7 +62,10 @@
     <Compile Include="public\javascripts\formAction.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="public\javascripts\reDrawAsync.js">
+    <Compile Include="public\javascripts\logout.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="public\javascripts\deleteRelationship.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="public\javascripts\saveAsync.js">
@@ -95,21 +98,18 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="README.md" />
-    <Content Include="views\createOrEdit.pug">
+    <Content Include="views\create.pug">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\index.pug" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />
     <Content Include="views\login.pug" />
-    <Content Include="views\login_form.pug">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="views\postDetail.pug">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\postList.pug" />
-    <Content Include="views\register_form.pug">
+    <Content Include="views\register.pug">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\user_info.pug" />

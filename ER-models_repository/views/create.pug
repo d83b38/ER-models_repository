@@ -1,0 +1,63 @@
+﻿extends layout
+block content
+
+    script.
+        window.relationships = [];
+        var userID=!{JSON.stringify(currUser.id)};
+        //var userToken= !{JSON.stringify(token)};
+    p Welcome, #{currUser.login}!
+    hr(class="uk-margin-small-top uk-margin-small-bottom " )
+    form( name="postNameForm")
+        div
+            label(class="uk-form-label") Введите названия поста         
+            input(type='text',  name='postName' placeholder'Post name:')
+    hr(class="uk-margin-small-top uk-margin-small-bottom " )
+    div(class="uk-child-width-expand@s " uk-grid )
+        div(class="uk-width-3-5 ")
+          svg#canvas( height='500px' width='800px' viewbox='0 0 800 500' border='3px solid #000'  xmlns='http://www.w3.org/2000/svg') 
+        div#editBlock( class="  uk-width-2-5 " uk-grid)
+          div#left()
+              form#currForm( name="currForm" )
+                  legend(class="uk-legend") Добавить связь
+                  div(class="uk-margin-small")
+                      label(class="uk-form-label" for='entity1Name') first entity name:
+                      div(class="uk-form-controls")
+                          input#entity1Name(type='text',  name='entity1Name')
+                  div(class="uk-margin-small")
+                      label(class="uk-form-label" for='entity1Coord') first entity  coords:
+                      div(class="uk-form-controls")
+                          input#entity1Coord(onkeyup='checkAndActivate()' type='text',  name='entity1Coord' required pattern="[0-9]+,{1}[0-9]+")
+                  div(class="uk-margin-small")
+                      label(class="uk-form-label" for='entity2Name') second entity name:
+                      div(class="uk-form-controls")
+                          input#entity2Name(type='text',  name='entity2Name')
+                  div(class="uk-margin-small")
+                      label(class="uk-form-label" for='entity2Coord') second entity coords:
+                      div(class="uk-form-controls")
+                          input#entity2Coord(onkeyup='checkAndActivate()' type='text',  name='entity2Coord' required pattern="[0-9]+,{1}[0-9]+")
+                  div(class="uk-margin-small")
+                      label(class="uk-form-label" for='relationshipName') relationship name:
+                      div(class="uk-form-controls")
+                          input#relationshipName(type='text', name='relationshipName')
+              input#buttonAdd(value='Добавить' type='button' disabled )
+          div#right()
+              form#delForm( name="delForm" )
+                  <legend class="uk-legend">Удалить связь</legend>
+                      div(class="uk-margin-small")
+                          label(class="uk-form-label" ) entity name:
+                          div()
+                              input#entityToDel(type='text',  name='entityToDel')
+              button#btnDelEnt() 
+                    |Удалить (все отношение)
+    hr(class="uk-margin-small-top uk-margin-small-bottom " )
+    button(type='button' class="uk-margin-bottom" style="float: right; width: 100px" name='Send' onclick='saveCreate(relationships,userID)')
+      | Сохранить
+
+    script(type="module" src='/javascripts/deleteRelationship.js')  
+    script(src='/javascripts/deleteEntity.js')    
+    script( type="module" src='/javascripts/addViaForm.js') 
+    script( type="module" src='/javascripts/simplePairDraw.js') 
+    script(src='/javascripts/checkAndActivate.js')
+    script(src='/javascripts/saveAsync.js')
+
+

@@ -1,20 +1,9 @@
 ﻿extends layout
 
 block content
-
-    h1
-      | XHR POST to Server
-    input#num(type='text')
-    button(type='button' value='Send' name='Send' onclick='send()')
-      | Send  
-
-    script.
-      function send () {
-        var number = {value: document.getElementById('num').value};
-        var xhr = new window.XMLHttpRequest();
-        xhr.open('POST', '/num', true);
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.send(JSON.stringify(number));
-        console.log('request sended');
-      }
-   
+    - var visitor = "Посетитель";
+    h2 ^^^ use this navbar to navigate
+    if currUser
+        h2 Welcome #{currUser.login}
+    else 
+        h2 Welcome #{visitor}

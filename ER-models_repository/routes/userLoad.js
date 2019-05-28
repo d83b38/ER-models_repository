@@ -49,7 +49,7 @@ function verifyToken(req, res, next) {
             var decoded = jwt.verify(token, req.app.get('secret'));
             next();
         } catch (e) {
-            res.send('Token expired :(');
+            res.send('Token expired / No token :(');
             //res.sendStatus(403);
         }   
     }
@@ -78,6 +78,7 @@ router.all('*', function (req, res, next) {
     var data = {};
     console.log('loading ...' );
     var token = req.cookies['authToken'];
+    //console.log(token);
     if (token) {
         data.token = token;
         data.user = getUser(token, req.app.get('secret'));

@@ -5,7 +5,8 @@ var router = express.Router();
 /* get home page. */
 router.get('/', function (req, res) {
     //debugger;
-    res.render('index', { title: 'express' });
+    var data = req.data;
+    res.render('index', { title: 'express', currUser: data.user});
 });
 
 router.post('/num', function (req, res) {

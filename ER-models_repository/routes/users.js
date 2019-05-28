@@ -17,6 +17,7 @@ router.get('/login', function (req, res) {
 
 router.post('/login', async function (req, res) {
     var form = new multiparty.Form();
+    var data = req.data;
     form.parse(req, async function (err, fields, files) {
         if (fields) {
             var login = fields.login[0];
@@ -28,7 +29,8 @@ router.post('/login', async function (req, res) {
                     var secret = req.app.get('secret');
                     var token = userLoad.getToken(currentUser.user, secret);
                     res.cookie('authToken', token);
-                    res.redirect('/users/user_info');
+                    //res.redirect('/users/user_info' );
+                    res.redirect('/');
                 }
                 else {
                     console.log('neudachno');
@@ -43,7 +45,7 @@ router.post('/login', async function (req, res) {
 });
 
 router.get('/register', function (req, res) {
-    res.render('register_form', { title: 'registration' });
+    res.render('register', { title: 'registration' });
 });
 
 router.post('/register',async function (req, res) {
@@ -85,11 +87,7 @@ router.get('/user_info', function (req, res, next) {
     function (req, res) {
     var data = req.data;
     data.title = 'User profile';
-    res.render('user_info', data);
-});
-
-router.post('/logout', function (req, res) {
-    res.send('NOT IMPLEMENTED');
+    res.render('user_info', { currUser: req.data.user});
 });
 
 module.exports = router;

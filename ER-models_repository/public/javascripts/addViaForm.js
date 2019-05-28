@@ -1,10 +1,8 @@
-﻿var relationships = window.relationships;
+﻿//var relationships = window.relationships;
 
 var buttonAdd = document.getElementById('buttonAdd');
 var canvas = document.getElementById('canvas');
 var SVG_URI = 'http://www.w3.org/2000/svg';
-
-
 import { getPoint, createRectangle} from './drawModule.js';
 
 const width = 100;
@@ -17,15 +15,21 @@ function myXOR(a, b) {
 
 function getCoord(rowString) {
     var arrayCoord = [];
-    //var transformedArray = transformPointStatic(arrayCoord[0], arrayCoord[1], 'canvas');
     return arrayCoord = rowString.split(',');
 }
 
 buttonAdd.addEventListener('click', (evt) => {
+    var relationships = window.relationships;
     var tempRec1 = document.getElementById('temp1');
     var tempRec2 = document.getElementById('temp2');
-    tempRec1.parentNode.removeChild(tempRec1);
-    tempRec2.parentNode.removeChild(tempRec2);
+    try {
+        tempRec1.parentNode.removeChild(tempRec1);
+        tempRec2.parentNode.removeChild(tempRec2);
+    } catch (e) {
+        console.log('');
+    }
+
+
     var form = document.forms.currForm; 
     var e_name1 = form.elements.entity1Name.value;
     var e_name2 = form.elements.entity2Name.value;
@@ -84,12 +88,11 @@ buttonAdd.addEventListener('click', (evt) => {
     }
 
     if (!(typeof foundedEntityFromForm1 === 'undefined')) {
-        console.log('foundedEntityFromForm1');
-        alert(`уже есть ${foundedEntityFromForm1.name} `);
+        console.log(`уже есть ${foundedEntityFromForm1.name} `);
         var rec1 = foundedEntityFromForm1;
         if (!(typeof foundedEntityFromForm2 === 'undefined')) {
-            alert(`тоже есть ${foundedEntityFromForm2.name} надо соединить их `);
-            alert('случай 1.1');
+            console.log(`тоже есть ${foundedEntityFromForm2.name} надо соединить их `);
+            console.log('случай 1.1');
             var rec2 = foundedEntityFromForm2;
             const drawPath = document.createElementNS(SVG_URI, 'path');
             //TODO сделать функцию соединения прямоугольников
@@ -117,8 +120,8 @@ buttonAdd.addEventListener('click', (evt) => {
             return;
         }
         if (typeof foundedEntityFromForm2 === 'undefined') {
-            alert(` ${e_name2} еще не встречалась надо построить `);
-            alert('случай 1.2');
+            console.log(` ${e_name2} еще не встречалась надо построить `);
+            console.log('случай 1.2');
             //построение  2 
             const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
 
@@ -161,12 +164,12 @@ buttonAdd.addEventListener('click', (evt) => {
         }
     }
     else {
-        alert(` ${e_name1} еще не встречалась, надо построить `);
+        console.log(` ${e_name1} еще не встречалась, надо построить `);
         //построение 1
         const rec1 = createRectangle(coord1[0], coord1[1], height, width, recColor);
         if (!(typeof foundedEntityFromForm2 === 'undefined')) {
-            alert(`уже есть ${foundedEntityFromForm2.name} надо соединить их `);
-            alert('случай 2.1');
+            console.log(`уже есть ${foundedEntityFromForm2.name} надо соединить их `);
+            console.log('случай 2.1');
             //построение соединения
             //добавление общее 
             const rec2 = foundedEntityFromForm2;
@@ -207,8 +210,8 @@ buttonAdd.addEventListener('click', (evt) => {
             return;
         }
         if (typeof foundedEntityFromForm2 === 'undefined') {
-            alert(` ${e_name2} еще не встречалась надо построить `);
-            alert('случай 2.2');
+            console.log(` ${e_name2} еще не встречалась надо построить `);
+            console.log('случай 2.2');
             //построение 2
             const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
             const drawPath = document.createElementNS(SVG_URI, 'path');

@@ -12,7 +12,11 @@ input:required:invalid {
 input:required:valid {
     border: 1px solid green;
 }
-
+#headerNav {
+    margin-top: -20px !important;
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+}
 /*#editBlock {
     position: absolute;
     right: 0;

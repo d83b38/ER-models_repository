@@ -17,7 +17,6 @@ mongoose.connect(mongoDBURL)
 mongoose.Promise = global.Promise;
 var db_mon = mongoose.connection;
 db_mon.on('error', console.error.bind(console, 'MongoDB connection error:'));
-var MongoClient = require('mongodb').MongoClient;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

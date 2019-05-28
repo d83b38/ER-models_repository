@@ -24,9 +24,12 @@ block content
   else 
     h2 Автор: none
   if currUser
-    //h3 you: #{currUser.login}
+    //h3 you: #{currUser.login}  
   deletePostAjax(postID,authorID)
-  hr(class=" uk-padding-remove " )
+
+
+  hr(class=" uk-padding-remove uk-margin-small-top uk-margin-small-bottom " )
+
   if post.user && currUser
       if post.user._id==currUser.id
           div#toolsBlock
@@ -35,7 +38,7 @@ block content
                 button#buttonEdit(type='button' style="width: 150px"  name='buttonDelete' onclick='deletePostAjax(postID,authorUserID)')
                     |Удалить пост
             div
-                button#buttonEdit(type='button' style="width: 150px" name='buttonEdit' onclick='showForm()')
+                button#buttonEdit(type='button' style="width: 150px" name='buttonEdit' onclick='showForm();') 
                     |Изменить модель
             div
                 button#buttonCancel(type='button' style="width: 150px"  name='buttonEdit' onclick='hideForm()' hidden )
@@ -43,14 +46,14 @@ block content
             div
                 button(type='button'  name='Save' style="width: 150px"  onclick='saveModel()')
                     |Сохранить модель
-  hr(class="uk-margin-remove-top uk-margin-remove-bottom " )
+  hr(class="uk-margin-small-top uk-margin-small-bottom " )
   div(class="uk-child-width-expand@s " uk-grid )
     div(class="uk-width-3-5 ")
       svg#canvas( height='500px' width='800px' viewbox='0 0 800 500' border='3px solid #000'  xmlns='http://www.w3.org/2000/svg') 
     div#editBlock(hidden class="  uk-width-2-5 " uk-grid)
       div#left()
           form#currForm( name="currForm" )
-              <legend class="uk-legend">Добавить связь</legend>
+              legend(class="uk-legend") Добавить связь
               div(class="uk-margin-small")
                   label(class="uk-form-label" for='entity1Name') first entity name:
                   div(class="uk-form-controls")
@@ -79,7 +82,7 @@ block content
                     label(class="uk-form-label" ) entity name:
                     div()
                         input#entityToDel(type='text',  name='entityToDel')
-        button#clearButton(onclick='deleteEntity()') 
+        button#btnDelEnt() 
                 |Удалить (все отношение)
 
   div( uk-grid class="uk-margin-large-bottom") 
@@ -96,21 +99,19 @@ block content
           br
       button#buttonComment(type='button'  style="float: right; width: 100px" onclick='sendComment(postID,currUserLocal);') Отправить     
  
+  script(src='/javascripts/clearFunc.js')
+  script(src='/javascripts/saveAsync.js')
   script(type="module").
     import { drawViaDB } from '/javascripts/drawViaDB.js'
     drawViaDB(model);
     loadComments(post.comments);
-
   script(type="module" src='/javascripts/addViaForm.js')   
+  script(type="module" src='/javascripts/deleteRelationship.js')  
   script(type="module" src='/javascripts/simplePairDraw.js') 
   script(src='/javascripts/deletePost.js')
   script(src='/javascripts/formAction.js')
   script(src='/javascripts/checkAndActivate.js')
-  script(src='/javascripts/saveAsync.js')
-  script(src='/javascripts/clearFunc.js')
   script(src='/javascripts/deleteEntity.js')
-
-
   script.
     function showForm() {
         document.getElementById('editBlock').hidden = false;
@@ -126,10 +127,7 @@ block content
     function saveModel() {       
         saveEdit(relationships,postID);
     }
-    function reDraw() {    
-        clearFunc();
-        drawViaDB(relationships);
-    }
+
     function loadComments(comments) {
         for (comment of comments) {
             addCommentToDoc(comment.user.login, comment.content);

@@ -1,9 +1,7 @@
 ﻿function deletePostAjax(postID,authorID) {
-    //var data = postID;
     var data = {
         authorID: ''
     };
-
     data.authorID = authorID;
     dataString = JSON.stringify(data);
     var xhr = new window.XMLHttpRequest();
@@ -12,6 +10,6 @@
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.send(dataString);
     console.log('requestToDeleteSended');
-    //TODO перенаправление не работает !!!!!
+    window.location.replace("http://localhost:3000/catalog/posts");
 }
 
