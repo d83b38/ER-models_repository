@@ -1,7 +1,7 @@
 ﻿extends layout
 block append content
     fieldset( style="  width: 250px ")
-        form(action="/users/login", method="POST", enctype="multipart/form-data")
+        form(action="/users/login", method="POST", enctype="multipart/form-data" onsubmit="alert('boo')")
             legend(class="uk-legend") Вход
                 div(class="uk-margin-small")
                     label(class="uk-form-label")
@@ -12,4 +12,4 @@ block append content
                     div(class="uk-form-controls")
                         input(placeholder='Пароль' name='password', type='password')
             p #{info}
-            input(type='submit', value='Войти >>')
+            input(type='submit',  value='Войти >>')

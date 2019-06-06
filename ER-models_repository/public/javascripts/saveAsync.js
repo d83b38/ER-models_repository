@@ -1,7 +1,7 @@
 ﻿function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length === 2) return parts.pop().split(";").shift();
+    var value = '; ' + document.cookie;
+    var parts = value.split('; ' + name + '=');
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 function saveCreate(transRelationships, id) {
@@ -43,7 +43,7 @@ function sendComment(postID, currUserLocal) {
 
         data.userID = currUserLocal.id;
         data.commentText = document.getElementById('commentInput').value;
-
+            
         dataString = JSON.stringify(data);
 
         xhr.open('POST', url, true);
@@ -73,10 +73,11 @@ function addCommentToDoc(userLogin, commentText) {
 }
 
 function saveEdit(relationships, id) {
+    var token = getCookie("authToken");
     var data = JSON.stringify(relationships);
     console.log(id);
     var xhr = new window.XMLHttpRequest();
-    var url = `/catalog/post/${id}/edit`;
+    var url = `/catalog/post/${id}/edit/${token}`;
     console.log(url);
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');

@@ -7,17 +7,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// TODO: вынести подключение к бд в отдельный модуль?
-//подключение  ODM к базе данных
-var mongoose = require('mongoose');
-var mongoDBURL = 'mongodb://localhost/ER-models_repository';
-mongoose.connect(mongoDBURL)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error(err));  
-mongoose.Promise = global.Promise;
-var db_mon = mongoose.connection;
-db_mon.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var catalog  = require('./routes/catalog');

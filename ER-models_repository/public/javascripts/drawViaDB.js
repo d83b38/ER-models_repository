@@ -8,7 +8,7 @@ export function drawViaDB(model) {
     relationships = model;
     const width = 100;
     const height = 50;
-    const recColor = 'red';
+    const recColor = 'Silver';
 
     for (var i = 0; i < relationships.length; ++i) {
         //console.log(relationships[i].entity_1);
@@ -67,7 +67,9 @@ export function drawViaDB(model) {
                 //alert('случай 1.1');
                 var rec2 = foundedEntityFromForm2;
                 const drawPath = document.createElementNS(SVG_URI, 'path');
-                drawPath.setAttribute('stroke', '#ff0000');
+
+
+
                 drawPath.setAttribute('fill', 'none');
                 drawPath.setAttribute('d', `M${parseFloat(rec2.coordinates[0]) + (width / 2)} 
                                      ${parseFloat(rec2.coordinates[1]) + (height / 2)} 
@@ -84,7 +86,8 @@ export function drawViaDB(model) {
                 const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
                 ////отрисовка пути от существующей первой к новой
                 const drawPath = document.createElementNS(SVG_URI, 'path');
-                drawPath.setAttribute('stroke', '#ff0000');
+                drawPath.setAttribute('stroke', 'Silver');
+                drawPath.setAttribute('stroke-width', '1.5');
                 drawPath.setAttribute('fill', 'none');
                 drawPath.setAttribute('d', `M${parseFloat(rec1.coordinates[0]) + (width / 2)} 
                                      ${parseFloat(rec1.coordinates[1]) + (height / 2)} 
@@ -118,7 +121,8 @@ export function drawViaDB(model) {
                 //добавление общее 
                 const rec2 = foundedEntityFromForm2;
                 const drawPath = document.createElementNS(SVG_URI, 'path');
-                drawPath.setAttribute('stroke', '#ff0000');
+                drawPath.setAttribute('stroke', 'Silver');
+                drawPath.setAttribute('stroke-width', '1.5');
                 drawPath.setAttribute('fill', 'none');
                 drawPath.setAttribute('d', `M${parseFloat(rec2.coordinates[0]) + (width / 2)} 
                                      ${parseFloat(rec2.coordinates[1]) + (height / 2)} 
@@ -147,7 +151,8 @@ export function drawViaDB(model) {
                 //построение 2
                 const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
                 const drawPath = document.createElementNS(SVG_URI, 'path');
-                drawPath.setAttribute('stroke', '#ff0000');
+                drawPath.setAttribute('stroke', 'Silver');
+                drawPath.setAttribute('stroke-width', '1.5');
                 drawPath.setAttribute('fill', 'none');
                 drawPath.setAttribute('d', `M${parseFloat(rec1.getAttribute('x')) + parseFloat(rec1.getAttribute('width')) / 2}, 
                                  ${parseFloat(rec1.getAttribute('y')) + parseFloat(rec1.getAttribute('height')) / 2} 

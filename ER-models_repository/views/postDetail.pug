@@ -35,7 +35,7 @@ block content
           div#toolsBlock
             div
 
-                button#buttonEdit(type='button' style="width: 150px"  name='buttonDelete' onclick='deletePostAjax(postID,authorUserID)')
+                button#buttonDelete(type='button' style="width: 150px"  name='buttonDelete' onclick='deletePostAjax(postID,authorUserID)')
                     |Удалить пост
             div
                 button#buttonEdit(type='button' style="width: 150px" name='buttonEdit' onclick='showForm();') 
@@ -99,7 +99,6 @@ block content
           br
       button#buttonComment(type='button'  style="float: right; width: 100px" onclick='sendComment(postID,currUserLocal);') Отправить     
  
-  script(src='/javascripts/clearFunc.js')
   script(src='/javascripts/saveAsync.js')
   script(type="module").
     import { drawViaDB } from '/javascripts/drawViaDB.js'
@@ -109,9 +108,7 @@ block content
   script(type="module" src='/javascripts/deleteRelationship.js')  
   script(type="module" src='/javascripts/simplePairDraw.js') 
   script(src='/javascripts/deletePost.js')
-  script(src='/javascripts/formAction.js')
   script(src='/javascripts/checkAndActivate.js')
-  script(src='/javascripts/deleteEntity.js')
   script.
     function showForm() {
         document.getElementById('editBlock').hidden = false;

@@ -5,15 +5,16 @@ var User = require('../models/user');
 var userLoad = require('../routes/userLoad');
 var mongoose = require('mongoose');
 
+
+
 router.get('/', function (req, res) {
-    res.render('index', { title: 'тут пока пустовато' });
+    res.render('index', { title: ' в разработке :) ' });
 });
 
-router.get('/posts', function (req, res) {
+router.get('/posts',async function (req, res) {
     var data = req.data;
-    Post.find({}, 'name user model')
+    await Post.find({}, 'name user model')
         .populate('user')
-        .populate('model')
         .exec(function (err, list_posts) {
             if (err) { return next(err); }
             res.render('postList', { title: 'All Posts List', currUser: data.user ,post_list: list_posts });
@@ -33,32 +34,39 @@ router.get('/post/create',
 );
 
 router.post('/post/create/:token', async function (req, res) {
-    //console.log(req.body);
+    var secret = req.app.get('secret');
     var data = req.body;
+     //req.params.id data.token req.params.token
     newPostID = new mongoose.Types.ObjectId();
-    try {
-        await User.findByIdAndUpdate(data.userID, { $push: { posts: newPostID } });
-        var newPost = new Post(
-            {
-                _id: newPostID,
-                name: data.name,
-                user: data.userID,
-                model: {
-                    relationships: data.relationships
-                }
-            }
-        );
-        console.log('success1');
+    if (userLoad.verifyTokenLogic(req.params.token, secret) && (req.data.token === req.params.token)) {
         try {
-            await newPost.save();
-            console.log('success2');
-        } catch (err) {
+            await User.findByIdAndUpdate(data.userID, { $push: { posts: newPostID } });
+            var newPost = new Post(
+                {
+                    _id: newPostID,
+                    name: data.name,
+                    user: data.userID,
+                    model: {
+                        relationships: data.relationships
+                    }
+                }
+            );
+            console.log('success1');
+            try {
+                await newPost.save();
+                console.log('success2');
+            } catch (err) {
+                console.log(err);
+            }
+            return res.end('done');
+        } catch (e) {
             console.log(err);
         }
-    return res.end('done');   
-    } catch (e) {
-        console.log(err);
     }
+    else {
+        return res.end('aborted');
+    }
+
 });
 
 // GET request for one post.
@@ -80,51 +88,71 @@ router.get('/post/:id', function (req, res, next) {
         });
 });
 // POST request to delete post.
-router.post('/post/:id/delete',async function (req, res) {
+router.post('/post/:id/delete/:token',async function (req, res) {
     console.log('запрос на удаление получен');
     console.log(req.params.id);
-
+    var secret = req.app.get('secret');
     var data = req.body;
     console.log(data.authorID);
-    try {
-        await User.findByIdAndUpdate(data.authorID, { $pull: { posts: req.params.id } });
-
-        console.log('success1');
+    if (userLoad.verifyTokenLogic(req.params.token, secret) && (req.data.token === req.params.token)) {
         try {
-            await Post.findByIdAndRemove(req.params.id);
-            console.log('success2');
-        } catch (err) {
-            console.log(err);
+            await User.findByIdAndUpdate(data.authorID, { $pull: { posts: req.params.id } });
+
+            console.log('success1');
+            try {
+                await Post.findByIdAndRemove(req.params.id);
+                console.log('success2');
+            } catch (err) {
+                console.log(err);
+            }
+
+            res.redirect('/catalog/posts');
+        } catch (e) {
+            console.log(e);
         }
-        
-        res.redirect('/catalog/posts');
-    } catch (e) {
-        console.log(e);
+    }
+    else {
+        console.log('rmemememe');
+        return res.end('aborted');
     }
 
+
 });
-// POST request to edit post.
-router.post('/post/:id/edit', function (req, res) {
-    console.log('request received');
-    var data = [];
-    data = req.body;
-    Post.findByIdAndUpdate(req.params.id, { $set: { "model.relationships": data } }, {}, function (err) {
-        if (err) { return next(err); }
-        console.log('success');
-    });
+// POST request to edit post. 5cebbf01a5d2dd26402c8b1e
+router.post('/post/:id/edit/:token', function (req, res) {
+    var secret = req.app.get('secret');
+    if (userLoad.verifyTokenLogic(req.params.token, secret) && (req.data.token === req.params.token)) {
+        console.log('request received');
+        var data = [];
+        data = req.body;
+        Post.findByIdAndUpdate(req.params.id, { $set: { "model.relationships": data } }, {}, function (err) {
+            if (err) { return next(err); }
+            console.log('success');
+        });
+    }
+    else {
+        console.log('sucfsdfsdfsdcess');
+        return res.end('aborted');
+    }
 });
 
 router.post('/post/:id/addComment/:token', function (req, res) {
     console.log('request received');
+    var secret = req.app.get('secret');
     var data = req.body;
     var comment = {
         content: data.commentText, user: data.userID
     };
+    if (userLoad.verifyTokenLogic(req.params.token, secret) && (req.data.token === req.params.token)) {
+        Post.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, {}, function (err) {
+            if (err) { return next(err); }
+            console.log('success');
+        });
+    }
+    else {
+         return res.end('aborted');
+    }
 
-    Post.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, {}, function (err) {
-        if (err) { return next(err); }
-        console.log('success');
-    });
 });
 
 module.exports = router;

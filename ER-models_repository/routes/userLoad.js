@@ -5,6 +5,15 @@ var User = require('../models/user');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
+var mongoose = require('mongoose');
+var mongoDBURL = 'mongodb://localhost/ER-models_repository';
+mongoose.connect(mongoDBURL)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error(err));
+mongoose.Promise = global.Promise;
+var db_mon = mongoose.connection;
+db_mon.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 async function checkLogin(login, password) {
     var crypPass = crypto.createHash('md5').update(password).digest('hex');
     try {
@@ -40,6 +49,18 @@ function getToken(user, secret) {
     var token = jwt.sign(user, secret, { expiresIn: 10000});
 
     return token;
+}
+
+
+
+function verifyTokenLogic(token, secret) {
+    try {
+        var temp = jwt.verify(token, secret);
+        return true;
+    } catch (e) {
+        
+        return false;
+    }
 }
 
 function verifyToken(req, res, next) {
@@ -92,5 +113,6 @@ module.exports = {
     checkLogin: checkLogin,
     getToken: getToken,
     getUser: getUser,
-    verifyToken: verifyToken
+    verifyToken: verifyToken,   
+    verifyTokenLogic: verifyTokenLogic
 };

@@ -7,11 +7,8 @@ import { getPoint, createRectangle} from './drawModule.js';
 
 const width = 100;
 const height = 50;
-const recColor = 'red';
+const recColor = 'Silver';
 
-function myXOR(a, b) {
-    return (a || b) && !(a && b);
-}
 
 function getCoord(rowString) {
     var arrayCoord = [];
@@ -30,21 +27,22 @@ buttonAdd.addEventListener('click', (evt) => {
     }
 
 
-    var form = document.forms.currForm; 
+    var form = document.forms.currForm;
     var e_name1 = form.elements.entity1Name.value;
     var e_name2 = form.elements.entity2Name.value;
     var coord1 = getCoord(form.elements.entity1Coord.value);
     var coord2 = getCoord(form.elements.entity2Coord.value);
     var r_name = form.elements.relationshipName.value;
 
-    function checkEntity(relationship, currName) {
-        if (relationship.entity_1.name === currName) {
-            return relationship.entity_1;
-        }
-        if (relationship.entity_2.name === currName) {
-            return relationship.entity_2;
-        }
-    }
+    //function checkEntity(relationship, currName) {
+    //    if (relationship.entity_1.name === currName) {
+    //        return relationship.entity_1;
+    //    }
+    //    if (relationship.entity_2.name === currName) {
+    //        return relationship.entity_2;
+    //    }
+    //}
+        
     //найден объект на первом месте с именем первой сущности из текущей формы
     var first1 = false;
     var second1 = false;
@@ -68,7 +66,7 @@ buttonAdd.addEventListener('click', (evt) => {
     if (second1) {
         foundedEntityFromForm1 = foundedRelationship1.entity_2;
     }
-   
+
     var foundedRelationship2 = relationships.find(function checkEntity(relationship) {
         if (relationship.entity_1.name === e_name2) {
             first2 = true;
@@ -95,8 +93,8 @@ buttonAdd.addEventListener('click', (evt) => {
             console.log('случай 1.1');
             var rec2 = foundedEntityFromForm2;
             const drawPath = document.createElementNS(SVG_URI, 'path');
-            //TODO сделать функцию соединения прямоугольников
-            drawPath.setAttribute('stroke', '#ff0000');
+            drawPath.setAttribute('stroke', 'Silver');
+            drawPath.setAttribute('stroke-width', '1.5');
             drawPath.setAttribute('fill', 'none');
             drawPath.setAttribute('d', `M${parseFloat(rec2.coordinates[0]) + (width / 2)} 
                                      ${parseFloat(rec2.coordinates[1]) + (height / 2)} 
@@ -127,7 +125,8 @@ buttonAdd.addEventListener('click', (evt) => {
 
             //отрисовка пути от существующей первой к новой
             const drawPath = document.createElementNS(SVG_URI, 'path');
-            drawPath.setAttribute('stroke', '#ff0000');
+            drawPath.setAttribute('stroke', 'Silver');
+            drawPath.setAttribute('stroke-width', '1.5');
             drawPath.setAttribute('fill', 'none');
             drawPath.setAttribute('d', `M${parseFloat(rec1.coordinates[0]) + (width / 2)} 
                                      ${parseFloat(rec1.coordinates[1]) + (height / 2)} 
@@ -174,7 +173,8 @@ buttonAdd.addEventListener('click', (evt) => {
             //добавление общее 
             const rec2 = foundedEntityFromForm2;
             const drawPath = document.createElementNS(SVG_URI, 'path');
-            drawPath.setAttribute('stroke', '#ff0000');
+            drawPath.setAttribute('stroke', 'Silver');
+            drawPath.setAttribute('stroke-width', '1.5');
             drawPath.setAttribute('fill', 'none');
             drawPath.setAttribute('d', `M${parseFloat(rec2.coordinates[0]) + (width / 2)} 
                                      ${parseFloat(rec2.coordinates[1]) + (height / 2)} 
@@ -215,7 +215,8 @@ buttonAdd.addEventListener('click', (evt) => {
             //построение 2
             const rec2 = createRectangle(coord2[0], coord2[1], height, width, recColor);
             const drawPath = document.createElementNS(SVG_URI, 'path');
-            drawPath.setAttribute('stroke', '#ff0000');
+            drawPath.setAttribute('stroke', 'Silver');
+            drawPath.setAttribute('stroke-width','1.5');
             drawPath.setAttribute('fill', 'none');
             drawPath.setAttribute('d', `M${parseFloat(rec1.getAttribute('x')) + parseFloat(rec1.getAttribute('width')) / 2}, 
                                  ${parseFloat(rec1.getAttribute('y')) + parseFloat(rec1.getAttribute('height')) / 2} 
@@ -263,4 +264,4 @@ buttonAdd.addEventListener('click', (evt) => {
         }
     }
 }
-)
+);

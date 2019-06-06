@@ -3,21 +3,16 @@ var Schema = mongoose.Schema;
 
 var postSchema = new Schema(
     {
-        name: { type: String, default: 'testPost'},
+        name: { type: String},
         user: { type: Schema.Types.ObjectId, ref: 'User'},
-
         comments: [{
             content: String,
-            //createdAt: Date,
-            //updatedAt: Date,
             user: { type: Schema.Types.ObjectId, ref: 'User'}
         }],
 
-        //description: String,
-
         model: {
             relationships: [{
-                //name: String,
+                name: String,
                 entity_1: {
                     name: String,
                     attributes: [String],
@@ -27,13 +22,14 @@ var postSchema = new Schema(
                     name: String,
                     attributes: [String],
                     coordinates: [Number]
-                }
-                //cardinality_1: [String],
-                //cardinality_2: [String]
+                },
+                cardinality_1: [String],
+                cardinality_2: [String]
             }]
         }
     }
 );
+
 postSchema
     .virtual('url')
     .get(function () {

@@ -19,9 +19,6 @@ var userSchema = new Schema(
     }
 );
 
-userSchema.methods.encryptPassword = function (password) {
-    return crypto.createHash('md5').update(password).digest('hex');
-};
 
 userSchema.virtual('password')
     .set(function (password) {
@@ -29,6 +26,10 @@ userSchema.virtual('password')
         this.hashedPassword = this.encryptPassword(password);
     })
     .get(function () { return this._plainPassword; });
+
+userSchema.methods.encryptPassword = function (password) {
+    return crypto.createHash('md5').update(password).digest('hex');
+};
 
 userSchema.methods.checkPassword = function (password) {
     return this.encryptPassword(password) === this.hashedPassword;

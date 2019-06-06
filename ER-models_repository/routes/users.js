@@ -1,7 +1,6 @@
 ﻿'use strict';
 var express = require('express');
 var router = express.Router();
-var async = require('async');
 var multiparty = require('multiparty');
 var userLoad = require('../routes/userLoad');
 var User = require('../models/user');
@@ -11,7 +10,6 @@ router.get('/', function (req, res) {
 });
 
 router.get('/login', function (req, res) {
-
     res.render('login', { title: 'login', info:'' });
 });
 
@@ -25,7 +23,7 @@ router.post('/login', async function (req, res) {
             if (login && password) {
                 var currentUser = await userLoad.checkLogin(login, password);
                 if (currentUser.isAuth) {
-                    console.log('udachno');
+                    console.log('success');
                     var secret = req.app.get('secret');
                     var token = userLoad.getToken(currentUser.user, secret);
                     res.cookie('authToken', token);
@@ -33,7 +31,6 @@ router.post('/login', async function (req, res) {
                     res.redirect('/');
                 }
                 else {
-                    console.log('neudachno');
                     res.render('login', { title: 'login', info: 'invalid login or password' });
                 }
             }
@@ -52,7 +49,6 @@ router.post('/register',async function (req, res) {
     var form = new multiparty.Form();
     await form.parse(req, async function (err, fields, files) {
         if (fields) {
-            // TODO: проверить есть ли такой пользователь уже
             var login = fields.login[0];
             var firstName = '';
             if (!(typeof fields.firstName[0] === 'undefined')) {
@@ -87,7 +83,7 @@ router.get('/user_info', function (req, res, next) {
     function (req, res) {
     var data = req.data;
     data.title = 'User profile';
-    res.render('user_info', { currUser: req.data.user});
+    res.render('userInfo', { currUser: req.data.user});
 });
 
 module.exports = router;

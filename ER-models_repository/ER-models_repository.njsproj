@@ -44,12 +44,6 @@
     <Compile Include="public\javascripts\checkAndActivate.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="public\javascripts\clearFunc.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="public\javascripts\deleteEntity.js">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="public\javascripts\deletePost.js">
       <SubType>Code</SubType>
     </Compile>
@@ -59,9 +53,6 @@
     <Compile Include="public\javascripts\drawViaDB.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="public\javascripts\formAction.js">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="public\javascripts\logout.js">
       <SubType>Code</SubType>
     </Compile>
@@ -69,9 +60,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="public\javascripts\saveAsync.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="public\javascripts\simpleDrawRec.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="public\javascripts\simplePairDraw.js">
@@ -86,9 +74,6 @@
     </Compile>
     <Compile Include="routes\users.js" />
     <Compile Include="routes\wiki.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="testBtranches.js">
       <SubType>Code</SubType>
     </Compile>
     <Content Include="package.json" />
@@ -112,7 +97,7 @@
     <Content Include="views\register.pug">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="views\user_info.pug" />
+    <Content Include="views\userInfo.pug" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="models\" />
